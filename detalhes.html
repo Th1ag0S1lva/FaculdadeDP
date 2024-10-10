@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Detalhes do Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .imagem {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .imagem img {
+            width: 1200px;
+            height: 1200px;
+            object-fit: cover;
+        }
+        .detalhes {
+            flex: 1;
+            padding: 20px;
+        }
+        .nome-produto {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .valor {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            background-color: #e7e7e7;
+            border-radius: 5px;
+        }
+        .tamanhos {
+            margin-top: 20px;
+        }
+        .tamanhos button {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #080808;
+            background-color: #d1d3d1;
+            cursor: pointer;
+        }
+        .tamanhos button:hover {
+            background-color: #5cb878;
+        }
+        .adicionar {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #140f20;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .adicionar:hover {
+            background-color: #5cb878;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="imagem">
+            <img id="produto-imagem" src="" alt="Imagem do Produto">
+        </div>
+        <div class="detalhes">
+            <h2 class="nome-produto" id="produto-nome"></h2>
+            <p class="valor" id="produto-valor">R$ <span class="valor-atual">0</span>,00</p>
+            <div class="tamanhos" id="tamanhos-container"></div>
+            <button class="adicionar" id="adicionar-carrinho">Adicionar ao Carrinho</button>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const nomeProduto = urlParams.get('nome');
+        const imagemProduto = urlParams.get('imagem');
+        const valores = JSON.parse(urlParams.get('valores'));
+        
+        document.getElementById('produto-nome').textContent = nomeProduto;
+        document.getElementById('produto-imagem').src = imagemProduto;
+        document.querySelector('.valor-atual').textContent = valores[0];
+
+        const tamanhosContainer = document.getElementById('tamanhos-container');
+        valores.forEach((valor, index) => {
+            const button = document.createElement('button');
+            button.textContent = (index === 0 ? '25ml' : (index === 1 ? '50ml' : '100ml'));
+            button.onclick = () => {
+                document.querySelector('.valor-atual').textContent = valor;
+            };
+            tamanhosContainer.appendChild(button);
+        });
+        
+        document.getElementById('adicionar-carrinho').onclick = () => {
+            alert(`${nomeProduto} foi adicionado ao carrinho!`);
+        };
+    </script>
+</body>
+</html>
