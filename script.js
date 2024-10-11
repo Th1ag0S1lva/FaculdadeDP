@@ -24,9 +24,6 @@ const masculinos = [
     { nome: "Phantom", tamanhos: ["25ml", "50ml", "100ml"], valores: [50, 100, 150], imagem: "IMGPerfumes/M/Phantom.jpeg" },
 ];
 
-const femininosList = document.getElementById("femininos-list");
-const masculinosList = document.getElementById("masculinos-list");
-
 function renderPerfumes(lista, container) {
     lista.forEach(perfume => {
         const perfumeItem = document.createElement("div");
@@ -75,14 +72,8 @@ function renderPerfumes(lista, container) {
     });
 }
 
-window.selecionarTamanho = function(nome, index, valorElement) {
-    const valor = femininos.find(p => p.nome === nome)?.valores[index] || masculinos.find(p => p.nome === nome)?.valores[index];
-    if (valor !== undefined) {
-        valorElement.innerHTML = `R$ ${valor},00`;
-    } else {
-        console.log(`Valor não encontrado para ${nome} e índice ${index}`);
-    }
-}
+const femininosList = document.getElementById("femininos-list");
+const masculinosList = document.getElementById("masculinos-list");
 
 if (femininosList) {
     renderPerfumes(femininos, femininosList);
@@ -90,4 +81,13 @@ if (femininosList) {
 
 if (masculinosList) {
     renderPerfumes(masculinos, masculinosList);
+}
+
+window.selecionarTamanho = function(nome, index, valorElement) {
+    const valor = femininos.find(p => p.nome === nome)?.valores[index] || masculinos.find(p => p.nome === nome)?.valores[index];
+    if (valor !== undefined) {
+        valorElement.innerHTML = `R$ ${valor},00`;
+    } else {
+        console.log(`Valor não encontrado para ${nome} e índice ${index}`);
+    }
 }
