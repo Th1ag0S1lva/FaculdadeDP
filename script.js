@@ -23,35 +23,55 @@ const masculinos = [
     { nome: "Ultra Male", tamanhos: ["25ml", "50ml", "100ml"], valores: [50, 100, 150], imagem: "IMGPerfumes/M/Ultra Male.jpeg" },
     { nome: "Phantom", tamanhos: ["25ml", "50ml", "100ml"], valores: [50, 100, 150], imagem: "IMGPerfumes/M/Phantom.jpeg" },
 ];
+
 const femininosList = document.getElementById("femininos-list");
 const masculinosList = document.getElementById("masculinos-list");
 
 function renderPerfumes(lista, container) {
     lista.forEach(perfume => {
-        const perfumeHTML = `
-            <div class="perfume-item">
-                <img 
-                    src="${perfume.imagem}" 
-                    alt="${perfume.nome}" 
-                    width="225" 
-                    height="225" 
-                    onclick="window.location.href='detalhes.html?nome=${encodeURIComponent(perfume.nome)}&imagem=${encodeURIComponent(perfume.imagem)}&valores=${JSON.stringify(perfume.valores)}'">
-                <h3>
-                    <strong 
-                        onclick="window.location.href='detalhes.html?nome=${encodeURIComponent(perfume.nome)}&imagem=${encodeURIComponent(perfume.imagem)}&valores=${JSON.stringify(perfume.valores)}'" 
-                        style="cursor: pointer;">
-                        ${perfume.nome}
-                    </strong>
-                </h3>
-                <p class="valor" id="valor-${perfume.nome}">R$ <span class="valor-atual">${perfume.valores[0]}</span>,00</p>
-                <div class="tamanhos">
-                    ${perfume.tamanhos.map((tamanho, index) => `
-                        <button onclick="selecionarTamanho('${perfume.nome}', ${index})">${tamanho}</button>
-                    `).join("")}
-                </div>
-            </div>
-        `;
-        container.innerHTML += perfumeHTML;
+        const perfumeItem = document.createElement("div");
+        perfumeItem.classList.add("perfume-item");
+
+        const imagem = document.createElement("img");
+        imagem.src = perfume.imagem;
+        imagem.alt = perfume.nome;
+        imagem.width = 225;
+        imagem.height = 225;
+        imagem.style.cursor = "pointer";
+        imagem.addEventListener("click", () => {
+            window.location.href = `detalhes.html?nome=${encodeURIComponent(perfume.nome)}&imagem=${encodeURIComponent(perfume.imagem)}&valores=${JSON.stringify(perfume.valores)}`;
+        });
+
+        const titulo = document.createElement("h3");
+        const tituloStrong = document.createElement("strong");
+        tituloStrong.textContent = perfume.nome;
+        tituloStrong.style.cursor = "pointer";
+        tituloStrong.addEventListener("click", () => {
+            window.location.href = `detalhes.html?nome=${encodeURIComponent(perfume.nome)}&imagem=${encodeURIComponent(perfume.imagem)}&valores=${JSON.stringify(perfume.valores)}`;
+        });
+        titulo.appendChild(tituloStrong);
+
+        const valor = document.createElement("p");
+        valor.classList.add("valor");
+        valor.innerHTML = `R$ <span class="valor-atual">${perfume.valores[0]}</span>,00`;
+
+        const tamanhos = document.createElement("div");
+        tamanhos.classList.add("tamanhos");
+        perfume.tamanhos.forEach((tamanho, index) => {
+            const btnTamanho = document.createElement("button");
+            btnTamanho.textContent = tamanho;
+            btnTamanho.addEventListener("click", () => {
+                selecionarTamanho(perfume.nome, index, valor);
+            });
+            tamanhos.appendChild(btnTamanho);
+        });
+
+        perfumeItem.appendChild(imagem);
+        perfumeItem.appendChild(titulo);
+        perfumeItem.appendChild(valor);
+        perfumeItem.appendChild(tamanhos);
+
+        container.appendChild(perfumeItem);
     });
 }
 
@@ -70,3 +90,4 @@ if (femininosList) {
 
 if (masculinosList) {
     renderPerfumes(masculinos, masculinosList);
+}
