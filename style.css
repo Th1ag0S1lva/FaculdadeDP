@@ -11,19 +11,19 @@ header, footer {
 .perfume-box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Distribui o espaço entre as caixas */
-    margin: 20px auto; /* Margem superior e inferior de 20px e centraliza horizontalmente */
-    max-width: 1200px; /* Define a largura máxima para centralizar o conteúdo */
+    justify-content: space-between; 
+    margin: 20px auto; 
+    max-width: 1200px; 
 }
 
 .perfume-item {
     background: rgba(250, 250, 250, 0.808);
     border: 5px solid #0c0c0c;
-    margin-bottom: 30px; /* Espaçamento inferior entre as caixas */
+    margin-bottom: 30px; 
     padding: 10px;
-    width: calc((100% - 40px) / 4); /* Calcula a largura das caixas para três por linha com margens */
-    box-sizing: border-box; /* Garante que a largura inclua padding e border */
-    transition: transform 0.3s ease; /* Transição suave */
+    width: calc((100% - 40px) / 4);
+    box-sizing: border-box; 
+    transition: transform 0.3s ease; 
     border-radius: 10px;
 }
 
