@@ -23,6 +23,8 @@ const masculinos = [
     { nome: "Ultra Male", tamanhos: ["25ml", "50ml", "100ml"], valores: [50, 100, 150], imagem: "IMGPerfumes/M/Ultra Male.jpeg" },
     { nome: "Phantom", tamanhos: ["25ml", "50ml", "100ml"], valores: [50, 100, 150], imagem: "IMGPerfumes/M/Phantom.jpeg" },
 ];
+const femininosList = document.getElementById("femininos-list");
+const masculinosList = document.getElementById("masculinos-list");
 
 function renderPerfumes(lista, container) {
     lista.forEach(perfume => {
@@ -53,13 +55,18 @@ function renderPerfumes(lista, container) {
     });
 }
 
-// Função global para selecionar o tamanho do perfume
-window.selecionarTamanho = function(nome, index) {
-    const valorAtualElement = document.querySelector(`#valor-${nome} .valor-atual`);
+window.selecionarTamanho = function(nome, index, valorElement) {
     const valor = femininos.find(p => p.nome === nome)?.valores[index] || masculinos.find(p => p.nome === nome)?.valores[index];
     if (valor !== undefined) {
-        valorAtualElement.textContent = `${valor},00`; // Atualiza o valor formatado
+        valorElement.innerHTML = `R$ ${valor},00`;
     } else {
         console.log(`Valor não encontrado para ${nome} e índice ${index}`);
     }
 }
+
+if (femininosList) {
+    renderPerfumes(femininos, femininosList);
+}
+
+if (masculinosList) {
+    renderPerfumes(masculinos, masculinosList);
