@@ -1,5 +1,10 @@
+h1{
+    color: #fff;
+
+}
 body {
-    font-family: Arial, sans-serif;
+    
+    background-color: #140f20;
 }
 
 header, footer {
@@ -11,26 +16,27 @@ header, footer {
 .perfume-box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin: 20px auto; 
-    max-width: 1200px; 
+    max-width: 1200px;
 }
 
 .perfume-item {
     background: rgba(250, 250, 250, 0.808);
-    border: 5px solid #0c0c0c;
-    margin-bottom: 30px; 
-    padding: 10px;
-    width: calc((100% - 40px) / 4);
+    margin-bottom: 30px;
+    padding: 11px;
+    width: calc((100% - 40px) / 4); 
     box-sizing: border-box; 
-    transition: transform 0.3s ease; 
-    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border-radius: 35px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .perfume-item img {
     width: 100%;
-    height: 60%;
+    height: 76%;
     transition: transform 0.6s;
+    border-radius: 25px;
 }
 
 .perfume-item:hover {
@@ -89,9 +95,8 @@ header, footer {
 }
 
 .filters-section {
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 5px;
+   padding: 10px;
+   width: auto;
 }
 
 .filters-section h3 {
@@ -103,4 +108,138 @@ header, footer {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
+}
+
+.descricao-caixa {
+   
+    padding: 20px; 
+    border-radius: 5px; 
+    margin-top: 20px; 
+}
+
+.descricao-caixa h3 {
+    margin: 0 0 10px; 
+}
+
+.descricao-caixa p {
+    font-size: 16px; 
+    color: #ca1818; 
+}
+
+.caixa-detalhes {
+    background-color: #3243da; 
+    padding: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto; 
+}
+
+.detalhes img {
+    width: 100%; 
+    max-width: 300px; 
+    height: auto; 
+}
+
+.button-container {
+    display: inline-block;
+    margin: 10px;
+}
+
+.styled-button {
+    font-size: 10px;
+    padding: 1em 3.3em;
+    cursor: pointer;
+    transform: perspective(200px) rotateX(15deg);
+    color: white;
+    font-weight: 800;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(
+        0deg,
+        rgba(63, 94, 251, 1) 0%,
+        rgba(70, 135, 252, 1) 100%
+    );
+    box-shadow: rgba(63, 94, 251, 0.2) 0px 40px 29px 0px;
+    will-change: transform;
+    transition: all 0.3s;
+    border-bottom: 2px solid rgba(70, 135, 252, 1);
+    text-decoration: none; 
+    display: inline-block;
+}
+
+.styled-button:hover {
+    transform: perspective(180px) rotateX(30deg) translateY(2px);
+}
+
+.styled-button:active {
+    transform: perspective(170px) rotateX(36deg) translateY(5px);
+}
+
+.bcarrinho {
+    font-family: inherit;
+    font-size: 20px;
+    background: #212121;
+    color: white;
+    fill: rgb(155, 153, 153);
+    padding: 0.7em 1em;
+    padding-left: 0.9em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 15px;
+    font-weight: 1000;
+  }
+  
+  .bcarrinho span {
+    display: block;
+    margin-left: 0.3em;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .bcarrinho svg {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .bcarrinho:hover {
+    background: #000;
+  }
+  
+  .bcarrinho:hover .svg-wrapper {
+    transform: scale(1.25);
+    transition: 0.5s linear;
+  }
+  
+  .bcarrinho:hover svg {
+    transform: translateX(1.2em) scale(1.1);
+    fill: #fff;
+  }
+  
+  .bcarrinho:hover span {
+    opacity: 0;
+    transition: 0.5s linear;
+  }
+  
+  .bcarrinho:active {
+    transform: scale(0.95);
+  }
+  
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-nav .nav-link {
+    margin-right: 10px;
+  }
+ 
+  .cart-icon {
+    position: absolute;
+    top: 20px; 
+    right: 20px; 
+    font-size: 24px; 
+    color: #f1e7e7; 
+    text-decoration: none; 
 }
