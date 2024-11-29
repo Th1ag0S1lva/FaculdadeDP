@@ -3,7 +3,7 @@ const masculinosList = document.getElementById("masculinos-list");
 
 // Função para buscar perfumes
 function fetchPerfumes(genero, container) {
-    fetch(`/FaculdadeDP/api/perfumes?genero=${genero}`)
+    fetch(`/api/perfumes?genero=${genero}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao buscar perfumes');

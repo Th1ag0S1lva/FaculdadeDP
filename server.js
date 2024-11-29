@@ -16,7 +16,7 @@ const db = new sqlite3.Database('./bd_perfumes.db', (err) => {
 });
 
 
-app.get('/FaculdadeDP/api/perfumes', (req, res) => {
+app.get('/api/perfumes', (req, res) => {
     const genero = req.query.genero;
 
     const query = "SELECT * FROM perfumes WHERE Genero = ?";
