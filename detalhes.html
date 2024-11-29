@@ -4,117 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Detalhes do Produto</title>
     <style>
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Brush Script MT', cursive; /* Fonte local */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f8f8;
+            background-color: #140f20;
         }
+
         .container {
+            text-align: center;
             display: flex;
-            width: 80%;
-            max-width: 1200px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            --bg: #ffffff;
+            --contrast: #e2e0e0;
+            --grey: #93a1a1;
+            display:flex;
+            width: 1000px; 
+            height: 700px;
+            background-color: var(--bg);
+            border-radius: 27px;
+            box-shadow:     rgb(18 18 18 / 0%) 0px 50px 100px -20px, rgb(26 26 26 / 31%) 0px 30px 60px -30px, rgb(0 0 0) 0px -2px 6px 0px inset;
+            flex-wrap: nowrap;
+            align-items: center;
+
         }
+
         .imagem {
+            width: 100%;
+            display: flex;
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 50px;
         }
+        
         .imagem img {
-            width: 1200px;
-            height: 1200px;
-            object-fit: cover;
-        }
-        .detalhes {
-            flex: 1;
-            padding: 20px;
-        }
-        .nome-produto {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .valor {
-            font-size: 24px;
-            color: #333;
-            margin-top: 20px;
-            padding: 10px;
-            border: none;
-            background-color: #e7e7e7;
-            border-radius: 5px;
+            width: 75%; 
+            height: 600px; 
+            max-width: 100%; 
+            height: auto; 
+            display: block; 
+            object-fit: cover; 
+            border-radius: 45px;
         }
         .tamanhos {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
-        .tamanhos button {
-            margin: 5px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #080808;
-            background-color: #d1d3d1;
-            cursor: pointer;
-        }
-        .tamanhos button:hover {
-            background-color: #5cb878;
-        }
-        .adicionar {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #140f20;
-            color: white;
+        .voltar{
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #4d5ffd;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-align: center;
+            transition: background-color 0.3s ease;
+            z-index: 10; /* Garante que o botão fique visível acima de outros elementos */
+        }
+        .voltar:hover {
+            background-color: #e55347;
+        }
+
+        .adicionar{
+            background-color: #4d5ffd;
+            border-radius: 5px;
+            margin: 11px;
+            padding: 8px;
         }
         .adicionar:hover {
-            background-color: #5cb878;
+            background-color: #e55347;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="voltar" onclick="window.history.back()">Voltar</button>
+
+        <a href="carrinho.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
         <div class="imagem">
             <img id="produto-imagem" src="" alt="Imagem do Produto">
         </div>
         <div class="detalhes">
             <h2 class="nome-produto" id="produto-nome"></h2>
             <p class="valor" id="produto-valor">R$ <span class="valor-atual">0</span>,00</p>
-            <div class="tamanhos" id="tamanhos-container"></div>
+            
+            <div class="descricao-caixa">
+                <h3>Descrição</h3>
+                <p id="produto-descricao">Aqui vai uma descrição do produto.</p>
+            </div>
+        
+           
+            <div>
+                <h3>Quantidade:</h3>
+                <input style="width: 40px;" id="quantidade" type="number" value="1" min="1" />
+            </div>
+                   
+        <div class="tamanhos" id="tamanhos-container"></div>
             <button class="adicionar" id="adicionar-carrinho">Adicionar ao Carrinho</button>
-        </div>
-    </div>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const nomeProduto = urlParams.get('nome');
-        const imagemProduto = urlParams.get('imagem');
-        const valores = JSON.parse(urlParams.get('valores'));
-        
-        document.getElementById('produto-nome').textContent = nomeProduto;
-        document.getElementById('produto-imagem').src = imagemProduto;
-        document.querySelector('.valor-atual').textContent = valores[0];
 
-        const tamanhosContainer = document.getElementById('tamanhos-container');
-        valores.forEach((valor, index) => {
-            const button = document.createElement('button');
-            button.textContent = (index === 0 ? '25ml' : (index === 1 ? '50ml' : '100ml'));
-            button.onclick = () => {
-                document.querySelector('.valor-atual').textContent = valor;
-            };
-            tamanhosContainer.appendChild(button);
-        });
-        
-        document.getElementById('adicionar-carrinho').onclick = () => {
-            alert(`${nomeProduto} foi adicionado ao carrinho!`);
-        };
-    </script>
 </body>
+<script> 
+    // Recupera os parâmetros da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const nomeProduto = urlParams.get('nome');
+    const imagemProduto = urlParams.get('imagem');
+    const valores = JSON.parse(urlParams.get('valores'));
+
+    // Exibe o nome do produto e a imagem
+    document.getElementById('produto-nome').textContent = nomeProduto;
+    document.getElementById('produto-imagem').src = imagemProduto;
+
+    // Inicializa o valor padrão (para o primeiro tamanho, que é 25ml)
+    let valorAtual = 50; // Valor inicial de 25ml
+    let quantidade = 1; // Quantidade inicial
+
+    // Exibe o valor inicial do produto
+    document.querySelector('.valor-atual').textContent = valorAtual;
+
+    // Exibindo os tamanhos disponíveis
+    const tamanhosContainer = document.getElementById('tamanhos-container');
+    const tamanhos = [25, 50, 100]; // Tamanhos possíveis: 25ml, 50ml, 100ml
+
+    tamanhos.forEach((tamanho) => {
+        const button = document.createElement('button');
+        button.textContent = `${tamanho}ml`;
+        button.onclick = () => {
+            // Atualiza o valor com base no tamanho selecionado
+            if (tamanho === 25) {
+                valorAtual = 50;
+            } else if (tamanho === 50) {
+                valorAtual = 100;
+            } else if (tamanho === 100) {
+                valorAtual = 150;
+            }
+
+            // Atualiza o valor exibido
+            document.querySelector('.valor-atual').textContent = valorAtual;
+        };
+        tamanhosContainer.appendChild(button);
+    });
+    // Atualiza a quantidade quando o valor no campo for alterado diretamente
+    document.getElementById('quantidade').oninput = (event) => {
+        quantidade = parseInt(event.target.value);
+        if (quantidade < 1) quantidade = 1;
+        document.getElementById('quantidade').value = quantidade;
+    };
+
+    // Ação ao adicionar ao carrinho
+    document.getElementById('adicionar-carrinho').onclick = () => {
+        // Cria o objeto do item que será adicionado ao carrinho
+        const itemCarrinho = {
+            nome: nomeProduto,
+            imagem: imagemProduto,
+            valor: valorAtual,
+            quantidade: quantidade,
+            tamanho: valorAtual // Tamanho do produto selecionado
+        };
+
+        // Recupera o carrinho do localStorage ou cria um novo caso não exista
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        // Adiciona o novo item ao carrinho
+        carrinho.push(itemCarrinho);
+
+        // Atualiza o carrinho no localStorage
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+        // Exibe um alerta para informar que o produto foi adicionado
+        alert(`${quantidade}x ${nomeProduto} (${valorAtual}ml) foram adicionados ao carrinho!`);
+
+        // Pergunta se o usuário deseja continuar comprando
+        const continuarComprando = confirm('Deseja continuar comprando?');
+
+        if (continuarComprando) {
+            // Caso o usuário escolha continuar comprando, permanece na página
+            window.location.reload(); // Recarrega a página atual
+        } else {
+            // Caso o usuário queira ir ao carrinho, redireciona para o carrinho
+            window.location.href = 'carrinho.html';
+        }
+    };
+</script>
 </html>
