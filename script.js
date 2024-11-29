@@ -3,14 +3,17 @@ const masculinosList = document.getElementById("masculinos-list");
 
 // Função para buscar perfumes
 function fetchPerfumes(genero, container) {
-    fetch(`/api/perfumes?genero=${genero}`)
+    fetch('/data/perfumes.json') // Carrega o arquivo JSON com os perfumes
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao buscar perfumes');
             }
             return response.json();
         })
-        .then(data => renderPerfumes(data, container))
+        .then(data => {
+            const filteredData = data.filter(perfume => perfume.Genero === genero);
+            renderPerfumes(filteredData, container);
+        })
         .catch(error => console.error('Erro ao buscar perfumes:', error));
 }
 
