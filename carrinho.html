@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <style>
+       
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffffb0;
+            border-radius: 10px;
+            box-shadow: rgb(247, 247, 247) 0px 50px 100px -20px, rgb(255, 254, 254) 0px 30px 60px -30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .produto-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .produto-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .produto-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .produto-info h3 {
+            margin: 0;
+        }
+
+        .quantidade {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantidade button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .quantidade input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .valor-item {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .checkbox {
+            margin-right: 15px;
+        }
+
+        .carrinho-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .carrinho-footer .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .finalizar-compra {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .finalizar-compra:hover {
+            background-color: #218838;
+        }
+
+        .excluir-item {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .excluir-item:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html"class="styled-button">Inicio</a>
+        <h1>Meu Carrinho de Compras</h1>
+        
+        <div id="carrinho-items"></div>
+
+        <div class="carrinho-footer">
+            <div class="total">
+                Total: R$<span id="total-valor">0,00</span>
+            </div>
+            <button class="styled-button" onclick="finalizarCompra()">Finalizar Compra</button>
+            
+        </div>
+        
+    </div>
+
+    <script>
+        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];  // Recupera o carrinho do localStorage
+
+        // Função para renderizar os produtos no carrinho
+        function renderizarCarrinho() {
+            const carrinhoContainer = document.getElementById('carrinho-items');
+            carrinhoContainer.innerHTML = ''; // Limpar carrinho atual
+
+            carrinho.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('produto-item');
+                
+                // Imagem do Produto
+                const img = document.createElement('img');
+                img.src = item.imagem;
+                img.alt = item.nome;
+
+                // Informações do Produto
+                const produtoInfo = document.createElement('div');
+                produtoInfo.classList.add('produto-info');
+                const nome = document.createElement('h3');
+                nome.textContent = item.nome;
+                const tamanho = document.createElement('p');
+                tamanho.textContent = `${item.tamanho}ml`;
+                produtoInfo.appendChild(nome);
+                produtoInfo.appendChild(tamanho);
+
+                // Checkbox de Seleção
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('checkbox');
+                checkbox.checked = true; // Todos os itens são selecionados por padrão
+                checkbox.onchange = () => {
+                    atualizarValorTotal();
+                };
+
+                // Quantidade e Valor
+                const quantidadeDiv = document.createElement('div');
+                quantidadeDiv.classList.add('quantidade');
+                const buttonMinus = document.createElement('button');
+                buttonMinus.textContent = '-';
+                const inputQuantidade = document.createElement('input');
+                inputQuantidade.type = 'number';
+                inputQuantidade.value = item.quantidade;
+                inputQuantidade.min = 1;
+                const buttonPlus = document.createElement('button');
+                buttonPlus.textContent = '+';
+
+                // Adicionando funcionalidade para alterar a quantidade
+                buttonMinus.onclick = () => {
+                    if (item.quantidade > 1) {
+                        item.quantidade--;
+                        inputQuantidade.value = item.quantidade;
+                        atualizarValorItem(index);  // Atualiza o valor do item
+                        atualizarValorTotal(); // Atualiza o valor total do carrinho
+                    }
+                };
+
+                buttonPlus.onclick = () => {
+                    item.quantidade++;
+                    inputQuantidade.value = item.quantidade;
+                    atualizarValorItem(index);  // Atualiza o valor do item
+                    atualizarValorTotal(); // Atualiza o valor total do carrinho
+                };
+
+                inputQuantidade.oninput = () => {
+                    item.quantidade = parseInt(inputQuantidade.value);
+                    if (item.quantidade < 1) item.quantidade = 1;
+                    atualizarValorItem(index);  // Atualiza o valor do item
+                    atualizarValorTotal(); // Atualiza o valor total do carrinho
+                };
+
+                quantidadeDiv.appendChild(buttonMinus);
+                quantidadeDiv.appendChild(inputQuantidade);
+                quantidadeDiv.appendChild(buttonPlus);
+
+                // Valor do Produto (este valor é atualizado ao alterar a quantidade)
+                const valorItem = document.createElement('div');
+                valorItem.classList.add('valor-item');
+                valorItem.id = `valor-item-${index}`;  // Atribui um ID único para cada item
+                valorItem.textContent = `R$${(item.valor * item.quantidade).toFixed(2)}`;
+                
+                // Botão de Excluir
+                const excluirButton = document.createElement('button');
+                excluirButton.classList.add('excluir-item');
+                excluirButton.textContent = 'Excluir';
+                excluirButton.onclick = () => {
+                    carrinho.splice(index, 1); // Remove o item do carrinho
+                    localStorage.setItem("carrinho", JSON.stringify(carrinho)); // Atualiza o localStorage
+                    renderizarCarrinho(); // Re-renderiza o carrinho
+                };
+
+                itemDiv.appendChild(checkbox);
+                itemDiv.appendChild(img);
+                itemDiv.appendChild(produtoInfo);
+                itemDiv.appendChild(quantidadeDiv);
+                itemDiv.appendChild(valorItem);
+                itemDiv.appendChild(excluirButton);
+
+                carrinhoContainer.appendChild(itemDiv);
+            });
+
+            atualizarValorTotal();
+        }
+
+        // Função para atualizar o valor de um item individual
+        function atualizarValorItem(index) {
+            const item = carrinho[index];
+            const valorItemElement = document.getElementById(`valor-item-${index}`);
+            valorItemElement.textContent = `R$${(item.valor * item.quantidade).toFixed(2)}`;
+        }
+
+        // Função para atualizar o valor total
+        function atualizarValorTotal() {
+            let total = 0;
+            const carrinhoContainer = document.getElementById('carrinho-items');
+            const checkboxes = carrinhoContainer.querySelectorAll('input[type="checkbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    total += carrinho[index].valor * carrinho[index].quantidade;
+                }
+            });
+
+            document.getElementById('total-valor').textContent = total.toFixed(2);
+        }
+
+        // Função para finalizar a compra
+        function finalizarCompra() {
+            alert('Compra finalizada!');
+            localStorage.clear(); // Limpa o localStorage ao finalizar a compra
+            window.location.href = 'index.html'; // Redireciona para a página inicial ou outra página desejada
+        }
+
+        // Inicializando o carrinho
+        renderizarCarrinho();
+    </script>
+</body>
+</html>
