@@ -30,3 +30,13 @@ PF e PM
 Paginas conteram filtros (onde serão ajustados)
 imagens flutuantes 
 caixas que alterarão o valor conforme clicando no tamanho
+
+AC 3 
+Ajuste com Java Script 
+Banco de dados 
+
+Final 
+
+Conclusão de paginas e funções para compra, selecionando tamanho e quantidade de itens. 
+Itens tem suas descrições unicas 
+ 
